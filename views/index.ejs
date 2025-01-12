@@ -1,0 +1,47 @@
+<%- include ("partials/header.ejs") %>
+
+<main class="post-container">
+    <div id="createPostModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <h2>Create a New Post</h2>
+            <form id="postForm">
+                <div class="upper">
+                    <div class="title">
+                        <label class="postheading" for="postTitle"></label>
+                        <input type="text" placeholder=" " id="postTitle" required />
+                        <span>Title</span>
+                    </div>
+                </div>
+
+                <div class="textarea-container">
+                    <textarea id="postDescription" placeholder=" " required></textarea>
+                    <label for="postDescription">Content</label>
+                </div>                
+
+                <button type="submit" id="postSubmitBtn" 
+                class="postSubmitBtn">Create Post</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Detail Modal -->
+    <div id="postDetailModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeDetailModal">
+                  &times;
+              </span>
+            <h1 id="detailTitle"></h1>
+            <span id="detailDate"></span>
+            <p id="detailDescription"></p>
+        </div>
+    </div>
+
+    <div id="postCreatedMessage" class="post-message">
+        Post created successfully!
+      </div>
+
+</main>
+
+
+<%- include ("partials/footer.ejs") %>
