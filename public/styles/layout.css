@@ -105,32 +105,6 @@ main {
     }
   }
   
-
-footer {
-    font-family: "Roboto Condensed", serif;
-        font-weight: 600;
-        font-style: normal;
-        color: #C4DAD2;
-        height: 10vh;
-        background-color: #16423C;
-}
-
-.cyrt {
-    display: inline-block;
-    margin-left: 50px;
-}
-
-a {
-    color: #C4DAD2;
-    text-decoration: 0;
-}
-
-a:hover {
-    -ms-transform: scale(1.2, 1.2);
-    -webkit-transform: scale(1.2, 1.2);
-    transform: scale(1.2, 1.2);
-    color: #E9EFEC;
-}
 .post{
     height: 50%;
     width: 50%;
