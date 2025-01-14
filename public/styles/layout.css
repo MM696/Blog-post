@@ -4,7 +4,6 @@ body {
     border: 0;
 }
 
-
 element {
         width: 100%;
         width: -moz-available;          /* WebKit-based browsers will ignore this. */
@@ -31,79 +30,83 @@ main {
     margin-top: 50px;
 }
 
-  /* Styling for the blog title */
   /* General navbar styling */
-  
-  .nav-header {
+.navbar {
     display: flex;
     justify-content: space-between;
-  }
-  
-  .header {
-    font-family: "Pacifico", serif;
-    font-weight: bold;
-    font-size: 30px;
-    color: #C4DAD2;
-  }
-  
-  .nav-toggle {
-    font-size: 24px;
-    color: #f2f2f2;
-    background: none;
-    border: none;
-    cursor: pointer;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #16423C;
+    color: white;
+}
+
+.navbar-header {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-toggler {
     display: none;
-  }
-  
-  /* Styling for the nav links */
-  .nav-links {
-        display: flex;
-        font-family: "Roboto Condensed", serif;
-            font-weight: 600;
-            font-style: normal;
-            font-size: 20px;
+    background-color: #555;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+/* Navbar menu styling */
+.navbar-menu {
+    display: flex;
     list-style: none;
+    margin: 0;
     padding: 0;
-    margin: 10px 0 0 0;
-  }
-  
-  .nav-links li {
-    margin-right: 15px;
-  }
-  
-  .nav-links a {
+}
+
+.navbar-menu li {
+    margin-left: 15px;
+}
+
+.navbar-menu a {
     text-decoration: none;
-    color: #C4DAD2;
-    padding: 10px 15px;
-    border-radius: 4px;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  
-  /* Responsive navbar for smaller screens */
-  @media screen and (max-width: 600px) {
-    .nav-toggle {
-      display: block;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.navbar-menu a:hover {
+    background-color: #555;
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+    .navbar-toggler {
+        display: block;
     }
-  
-    .nav-links {
-      display: none;
-      flex-direction: column;
-      height: 100%;
+
+    .navbar-menu {
+        display: none;
+        flex-direction: column;
+        background-color: #16423C;
+        position: absolute;
+        top: 50px;
+        right: 20px;
+        width: 200px;
+        border-radius: 5px;
+        padding: 10px;
     }
-  
-    .nav-links.show {
-      display: flex;
+
+    .navbar-menu.active {
+        display: flex;
     }
-  
-    .nav-links a {
-      text-align: left;
-      padding: 10px;
+
+    .navbar-menu li {
+        margin: 10px 0;
     }
-  
-    .nav-header {
-      width: 100%;
-    }
-  }
+}
+
   
 .post{
     height: 50%;
@@ -395,6 +398,18 @@ textarea:focus {
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s;
+}
+
+a {
+    color: #C4DAD2;
+    text-decoration: 0;
+}
+
+a:hover {
+    -ms-transform: scale(1.2, 1.2);
+    -webkit-transform: scale(1.2, 1.2);
+    transform: scale(1.2, 1.2);
+    color: #E9EFEC;
 }
 
 .postSubmitBtn:hover {

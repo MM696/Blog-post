@@ -1,5 +1,3 @@
-document.querySelector("#year").textContent = new Date().getFullYear();
-
 document.addEventListener("DOMContentLoaded", () => {
     const createPostBtn = document.getElementById("createPostBtn");
     const createPostModal = document.getElementById("createPostModal");
@@ -135,12 +133,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-    const navToggle = document.getElementById('navToggle');
-    const navLinks = document.getElementById('navLinks');
-  
-    navToggle.addEventListener('click', () => {
-      navLinks.classList.toggle('show');
+document.addEventListener("DOMContentLoaded", () => {
+    const navbarToggler = document.getElementById("navbarToggler");
+    const navbarMenu = document.getElementById("container");
+
+    navbarToggler.addEventListener("click", () => {
+        navbarMenu.classList.toggle("active");
     });
-  });
-  
+});
+
