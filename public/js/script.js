@@ -9,9 +9,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const detailTitle = document.getElementById("detailTitle");
     const detailDate = document.getElementById("detailDate");
     const detailDescription = document.getElementById("detailDescription");
+    const welcomeMessage = document.getElementById("welcomeMessage");
 
     let editMode = false;
     let postBeingEdited = null;
+
+    // Function to toggle the welcome message visibility
+    const toggleWelcomeMessage = () => {
+        if (postContainer.children.length === 0) {
+            welcomeMessage.style.display = "block";
+        } else {
+            welcomeMessage.style.display = "none";
+        }
+    };
 
     // Show the create post modal
     createPostBtn.addEventListener("click", () => {
@@ -20,14 +30,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Close the create post modal
     closeModal.addEventListener("click", () => {
-        createPostModal.classList.add("fadeOut");
-        setTimeout(() => {
-            createPostModal.style.display = "none";
-            createPostModal.classList.remove("fadeOut");
-            postForm.reset();
-            editMode = false; // Reset edit mode
-            postBeingEdited = null;
-        }, 500);
+        createPostModal.style.display = "none";
+        postForm.reset();
+        editMode = false;
+        postBeingEdited = null;
     });
 
     // Handle post form submission
@@ -43,10 +49,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (editMode) {
-            // Update the existing post
             const titleElement = postBeingEdited.querySelector(".post-title");
             const descriptionElement = postBeingEdited.querySelector(".post-description");
-            const dateElement = postBeingEdited.querySelector(".post-date");
 
             titleElement.textContent = postTitle;
             titleElement.setAttribute("data-title", postTitle);
@@ -57,7 +61,6 @@ document.addEventListener("DOMContentLoaded", () => {
             editMode = false;
             postBeingEdited = null;
         } else {
-            // Create a new post
             const currentDate = new Date();
             const formattedDate = `${currentDate.getDate()} ${currentDate.toLocaleString("default", { month: "short" })} ${currentDate.getFullYear()}`;
 
@@ -71,45 +74,25 @@ document.addEventListener("DOMContentLoaded", () => {
                 <p class="post-description">${postDescription.substring(0, 100)}...</p>
                 <button class="delete-post" data-title="${postTitle}">Delete</button>
                 <button class="edit-post" data-title="${postTitle}">Edit</button>
-                <span class="view" data-title="${postTitle}" data-date="${formattedDate}" data-description="${postDescription}">View</span>
             `;
 
-            postContainer.insertBefore(newPost, postContainer.firstChild);
+            postContainer.appendChild(newPost);
         }
-
-        document.getElementById("postCreatedMessage").style.display = "block";
-        setTimeout(() => {
-            document.getElementById("postCreatedMessage").style.display = "none";
-        }, 3000);
 
         createPostModal.style.display = "none";
         postForm.reset();
+        toggleWelcomeMessage();
     });
 
     // Event delegation for post container
     postContainer.addEventListener("click", (event) => {
-        if (event.target.classList.contains("view") || event.target.classList.contains("post-title")) {
-            const title = event.target.getAttribute("data-title");
-            const date = event.target.getAttribute("data-date");
-            const description = event.target.getAttribute("data-description");
-
-            detailTitle.textContent = title;
-            detailDate.textContent = date;
-            detailDescription.textContent = description;
-
-            postDetailModal.style.display = "flex";
-        }
-
         if (event.target.classList.contains("delete-post")) {
             const postToDelete = event.target.closest(".post-box");
-            postToDelete.classList.add("fadeOut");
-            setTimeout(() => {
-                postToDelete.remove();
-            }, 500);
+            postToDelete.remove();
+            toggleWelcomeMessage();
         }
 
         if (event.target.classList.contains("edit-post")) {
-            // Edit the post
             const postToEdit = event.target.closest(".post-box");
             const title = postToEdit.querySelector(".post-title").getAttribute("data-title");
             const description = postToEdit.querySelector(".post-title").getAttribute("data-description");
@@ -125,13 +108,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Close the detail modal
     closeDetailModal.addEventListener("click", () => {
-        postDetailModal.classList.add("fadeOut");
-        setTimeout(() => {
-            postDetailModal.style.display = "none";
-            postDetailModal.classList.remove("fadeOut");
-        }, 500);
+        postDetailModal.style.display = "none";
     });
+
+    // Initial call to set the welcome message visibility
+    toggleWelcomeMessage();
 });
+
 
 document.addEventListener("DOMContentLoaded", () => {
     const navbarToggler = document.getElementById("navbarToggler");
