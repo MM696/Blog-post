@@ -1,6 +1,39 @@
 <%- include ("partials/header.ejs") %>
-<div id="welcomeMessage">
-    Welcome! Create your first post
+<body>
+    <div class="post-container">
+        <h1>Welcome! Create your first post</h1> 
+        <ul id="postsList">
+            <% posts.forEach(post=> { %>
+            <li>
+                <h2>
+                    <%= post.title %>
+                </h2>
+                <small>
+                    <%= post.date %>
+                </small>
+                <p>
+                    <%= post.content %>
+                </p>
+                <small>By: <%= post.author %> </small>
+                <a class="edit" href="/edit/<%= post.id %>">Edit</a>
+                <a class="delete" href="/api/posts/delete/<%= post.id %>">Delete</a>
+            </li>
+        <% }); %>
+        </ul>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+    const navbarToggler = document.getElementById("navbarToggler");
+    const navbarMenu = document.getElementById("container");
+
+    navbarToggler.addEventListener("click", () => {
+        navbarMenu.classList.toggle("active");
+    });
+});
+    </script>
+</body>
+<!--<div id="welcomeMessage">
+   <h1>Welcome! Create your first post</h1> 
 </div>
 <div class="post-container"></div>
 
@@ -31,7 +64,7 @@
     
 
     <!-- Detail Modal -->
-    <div id="postDetailModal" class="modal">
+    <!--<div id="postDetailModal" class="modal">
         <div class="modal-content">
             <span class="close" id="closeDetailModal">
                   &times;
@@ -48,4 +81,4 @@
 
   <script src="/js/script.js"></script>
 
-</main>
+</main>-->

@@ -103,7 +103,6 @@ main {
         position: absolute;
         top: 50px;
         right: 20px;
-        width: 200px;
         border-radius: 5px;
         padding: 10px;
     }
@@ -114,6 +113,7 @@ main {
 
     .navbar-menu li {
         margin: 10px 0;
+        text-align: center;
     }
 }
 
@@ -126,16 +126,15 @@ main {
 .post-container {
     margin-left: 5%;
     margin-right: 5%;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    justify-content: center;
     gap: 2.5rem;
+    padding: 20px;
 }
 
 .post-box {
     margin-top: 10px;
     background-color: white;
     text-align: center;
+    border-radius: 20px;
     padding: 15px;
 }
 
@@ -155,31 +154,45 @@ main {
 .post-title {
     color: #16423C;
     text-decoration: none;
-    font-size: 2rem;
+    font-size: 1rem;
     font-weight: bold;
     display: inline-block;
+    text-align: justify;
+    text-decoration: underline;
     margin-bottom: 10px;
-    cursor: pointer;
-    transition: transform 0.3s;
-}
-
-.post-title:hover {
-    -ms-transform: scale(1.1, 1.1);
-    -webkit-transform: scale(1.1, 1.1);
-    transform: scale(1.1, 1.1);
+    width: 100%;
+    max-width: 500px; /* Adjust as needed */
+    word-wrap: break-word; /* Ensures long words do not overflow */
+    overflow: hidden;
 }
 
 .post-date {
     color: #777;
-    font-size: 0.9rem;
+    font-size: 0.7rem;
     margin-bottom: 10px;
 }
 
-.post-description {
-    margin-top: 5px;
-    color: #16423C;
-    line-height: 1.5;
+.post-box {
+    width: 100%;
+    background: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    word-wrap: break-word; /* Ensures long words do not overflow */
+    overflow: hidden;
 }
+
+.post-description {
+    white-space: normal; /* Allows text to wrap */
+    overflow: visible; /* Ensures all text is shown */
+    max-height: none; /* Allows content to expand */
+    font-size: 14px;
+    color: #555;
+    line-height: 1.4; /* Adjust line spacing for readability */
+    text-align: justify;
+}
+
+
 
 /* Styles for the modal */
 .modal {
@@ -199,7 +212,7 @@ main {
 .modal-content {
     font-family: "Playfair Display", serif;
     color: #16423C;
-    max-width: 50%;
+    max-width: 80%;
     width: 100%;
     height: 75%;
     margin: auto;
@@ -273,7 +286,7 @@ textarea {
     font-size: larger;
     width: 100%;
     max-width: 100%;
-    height: 50vh;
+    height: 30vh;
     padding: 12px;
     margin-bottom: 16px;
     border: 1px solid var(--placeholder);
@@ -477,17 +490,18 @@ a:hover {
     color: white;
     padding: 8px 15px;
     border: none;
-    border-radius: 100px;
+    border-radius: 5px;
 }
 
 .delete-post {
     font-family: "Playfair Display", serif;
-    background-color: #6A9C89;
+    background-color: #c0392b;
     color: white;
     padding: 8px 15px;
     border: none;
-    border-radius: 100px;
+    border-radius: 5px;
     cursor: pointer;
+    height: 40px;
     font-size: 14px;
     margin-top: 10px;
     margin-right: 120px;
@@ -501,9 +515,8 @@ a:hover {
 /* Media Queries for Responsiveness */
 
 /* Small devices (phones, 480px and down) */
-@media (max-width: 480px) {
+@media (min-width: 360px) {
     #container {
-        flex-direction: column;
         height: auto;
     }
 
@@ -512,29 +525,15 @@ a:hover {
         text-align: center;
         margin-left: 0;
     }
-
-    footer {
-        text-align: center;
-        font-size: 14px;
-    }
-
-    .post-container {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-
     textarea {
-        height: 30vh;
+        margin-top: 30px;
     }
 
-    .modal-content {
-        max-width: 90%;
-        height: 70%;
-    }
+
 }
 
 /* Medium devices (tablets, 768px and down) */
-@media (max-width: 768px) {
+@media (min-width: 768px) {
     .header {
         font-size: 26px;
     }
@@ -542,10 +541,6 @@ a:hover {
     .post-container {
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         gap: 1.5rem;
-    }
-
-    textarea {
-        height: 40vh;
     }
 
     .modal-content {
@@ -559,7 +554,7 @@ a:hover {
 }
 
 /* Large devices (desktops, 1024px and down) */
-@media (max-width: 1024px) {
+@media (min-width: 1024px) {
     #container {
         gap: 0.5rem;
     }
@@ -570,10 +565,6 @@ a:hover {
 
     .post-container {
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    }
-
-    textarea {
-        height: 50vh;
     }
 
     .modal-content {

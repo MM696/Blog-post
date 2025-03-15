@@ -1,0 +1,37 @@
+<%- include ("partials/header.ejs") %>
+
+<body>
+    <div class="post-container">
+        <h1>
+            <%= heading %>
+        </h1>
+
+        <% if (locals.post) { %>
+        <form id="postForm" method="post" action="/api/posts/<%= post.id %>">
+            <div class="upper">
+                <div class="title">
+                    <label class="postheading" for="title"></label>
+                    <input class="title" type="text" name="title" value="<%= post.title %>"/>
+                    <textarea name="content" rows="10"><%= post.content %></textarea>
+                    <input type="text" name="author" value="<%= post.author %>"/>
+                    <button class="full-width" type="submit">
+                     <%= submit %>
+                    </button>
+                </div> 
+            </div>
+        </form>
+        <% } else { %>
+        <form id="newPostForm" method="post" action="/api/posts">
+            <input type="text" name="title" placeholder="" required/>
+            <textarea id="postDescription" name="content" placeholder=" " required rows="10"></textarea>
+            <label for="postDescription">Content</label>
+            <input type="text" name="author" placeholder="Author" required/>
+            <button type="submit" class="full-width"> 
+             <%= submit %>
+            </button>
+        </form>
+        <% } %>
+
+
+    </div>
+</body>
