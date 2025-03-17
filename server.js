@@ -22,6 +22,7 @@ app.get("/", async (req, res) => {
     }
 });
 
+
 //Route to render the edit page
 app.get("/new", (req, res) => {
     res.render("modify.ejs", { heading: "New Post", submit: "Create Post" });
@@ -40,6 +41,7 @@ app.get("/edit/:id", async (req, res) => {
         res.status(500).json({ message: "Error fetching post" });
     }
 });
+
 
 //Create a new post
 app.post("/api/posts", async (req, res) => {

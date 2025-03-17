@@ -14,24 +14,37 @@
                     <input class="title" type="text" name="title" value="<%= post.title %>"/>
                     <textarea name="content" rows="10"><%= post.content %></textarea>
                     <input type="text" name="author" value="<%= post.author %>"/>
-                    <button class="full-width" type="submit">
+                    <button class="postSubmitBtn" type="submit">
                      <%= submit %>
                     </button>
                 </div> 
             </div>
         </form>
         <% } else { %>
-        <form id="newPostForm" method="post" action="/api/posts">
-            <input type="text" name="title" placeholder="" required/>
-            <textarea id="postDescription" name="content" placeholder=" " required rows="10"></textarea>
-            <label for="postDescription">Content</label>
-            <input type="text" name="author" placeholder="Author" required/>
-            <button type="submit" class="full-width"> 
-             <%= submit %>
-            </button>
-        </form>
+            <form id="newPostForm" method="post" action="/api/posts">
+                <div class="title">
+                    <label class="postheading" for="postTitle"></label>
+                    <input type="text" name="title" placeholder=" " id="postTitle" placeholder="" required/>
+                    <span>Enter title</span>
+                </div>
+                
+                <div class="textarea-container">
+                    <textarea name="content" id="content" rows="10" required></textarea>
+                    <label for="content">Content</label>
+                </div>
+            
+                <div class="title">
+                    <label class="postheading" for="postTitle"></label>
+                    <input type="text" id="postTitle" name="author" id="author" placeholder=""  autofocus autocomplete="off"/>
+                    <span>Enter author name</span>
+                </div>
+                <button type="submit" class="postSubmitBtn">
+                    <%= submit %>
+                </button>
+            </form>
+            
         <% } %>
-
 
     </div>
 </body>
+<%- include ("partials/footer.ejs") %>

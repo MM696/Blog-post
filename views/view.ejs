@@ -1,9 +1,8 @@
-<%- include ("partials/header.ejs") %>
+<%- include("partials/header.ejs") %>
 <body>
     <div class="post-container">
-        <h1>Welcome! Create your first post</h1> 
         <ul id="postsList">
-            <% posts.forEach(post=> { %>
+            <% posts.forEach(post => { %>
             <li>
                 <h2 class="post-title">
                     <%= post.title %>
@@ -14,13 +13,18 @@
                 <p>
                     <%= post.content %>
                 </p>
-                <small>By: <%= post.author %> </small>
+                <small>
+                    By: <%= pos.author %>
+                </small>
                 <a class="edit-post" href="/edit/<%= post.id %>">Edit</a>
                 <a class="delete-post" href="/api/posts/delete/<%= post.id %>">Delete</a>
             </li>
-            <hr>
-        <% }); %>
+            <% }); %>
+
         </ul>
+
     </div>
+
 </body>
-<%- include ("partials/footer.ejs") %>
+
+<%- include("partials/footer.ejs") %>

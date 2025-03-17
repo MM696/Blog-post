@@ -69,6 +69,7 @@ main {
 
 /* Navbar menu styling */
 .navbar-menu {
+    background-color: #16423C;
     display: flex;
     list-style: none;
     margin: 0;
@@ -124,10 +125,10 @@ main {
 }
 
 .post-container {
-    margin-left: 5%;
-    margin-right: 5%;
+    margin-left: 20px;
+    margin-right: 20px;
     gap: 2.5rem;
-    padding: 20px;
+    padding: 0;
 }
 
 .post-box {
@@ -153,17 +154,18 @@ main {
 
 .post-title {
     color: #16423C;
-    text-decoration: none;
-    font-size: 1rem;
+    text-decoration: underline;
+    font-family: "Roboto Condensed", serif;
     font-weight: bold;
     display: inline-block;
     text-align: justify;
-    text-decoration: underline;
-    margin-bottom: 10px;
-    width: 100%;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 20px;
     max-width: 500px; /* Adjust as needed */
     word-wrap: break-word; /* Ensures long words do not overflow */
     overflow: hidden;
+    cursor: pointer;
 }
 
 .post-date {
@@ -192,82 +194,18 @@ main {
     text-align: justify;
 }
 
-
-
-/* Styles for the modal */
-.modal {
-    z-index: 1000;
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    justify-content: center;
-    align-items: center;
-    animation: fadeIn 0.5s ease-in-out;
-}
-
-.modal-content {
-    font-family: "Playfair Display", serif;
+h1 {
     color: #16423C;
-    max-width: 80%;
-    width: 100%;
-    height: 75%;
-    margin: auto;
-    background: rgba(255, 255, 255, 0.67);
-    border-radius: 16px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(9.5px);
-    -webkit-backdrop-filter: blur(9.5px);
-    padding: 20px;
-    padding-top: 5px;
-    border-radius: 10px;
-    overflow-y: auto;
-    max-height: 80vh;
-    text-align: center;
-    animation: fadeIn 0.5s ease-in-out;
-}
-
-.modal.fadeOut {
-    animation: fadeOut 0.5s ease-in-out;
-    /* Apply fadeOut animation */
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes fadeOut {
-    from {
-        opacity: 1;
-    }
-
-    to {
-        opacity: 0;
-    }
-}
-
-
-.close {
-    cursor: pointer;
-    font-size: 25px;
-    color: #555;
-    transition: transform .2s;
+    font-family: "Roboto Condensed", serif;
+    font-weight: bold;
     display: inline-block;
-}
-
-.close:hover {
-    -ms-transform: scale(1.7, 1.7);
-    -webkit-transform: scale(1.7, 1.7);
-    transform: scale(1.7, 1.7);
+    text-align: justify;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 20px;
+    max-width: 500px; /* Adjust as needed */
+    word-wrap: break-word; /* Ensures long words do not overflow */
+    overflow: hidden;
 }
 
 
@@ -277,11 +215,9 @@ main {
 
 textarea {
     position: relative;
-    resize: none; 
+    resize: none;
     text-align: start;
-    text-rendering: auto;
-    font-family: "Lora", serif; /* Match with .postDescription */
-    font-weight: bold;
+    font-family: "Lora", serif;
     color: #16423C;
     font-size: larger;
     width: 100%;
@@ -295,7 +231,7 @@ textarea {
     transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-/* Placeholder label for textarea */
+/* Container for textarea with floating label */
 .textarea-container {
     position: relative;
     display: flex;
@@ -305,8 +241,10 @@ textarea {
 
 .textarea-container textarea {
     z-index: 0;
+    background: white;
 }
 
+/* Floating label */
 .textarea-container label {
     position: absolute;
     top: 12px;
@@ -315,33 +253,33 @@ textarea {
     font-size: larger;
     font-family: "Lora", serif;
     font-weight: normal;
-    pointer-events: none; /* Make label non-clickable */
+    pointer-events: none;
     transition: transform 0.3s ease, color 0.3s ease;
 }
 
-/* Focus or filled state */
-textarea:focus + label,
-textarea:not(:placeholder-shown) + label {
-    transform: translateY(-1.8rem) scale(0.75); /* Move label up */
-    color: #16423C; /* Active label color */
-    z-index: 2;
-    background-color: #d3d4d3e8;
+/* Move label up when textarea is focused OR has text */
+.textarea-container textarea:focus + label,
+.textarea-container.has-text label {
+    transform: translateY(-1.8rem) scale(0.75);
+    color: #16423C;
+    background-color: #eef1eee8;
+    padding: 2px 5px;
 }
 
 /* Focused textarea styles */
-textarea:focus {
+.textarea-container textarea:focus {
     border-color: #16423C;
-    box-shadow: 0 0 0 5px rgba(22, 66, 60, 0.2);
-    z-index: 1;
+    box-shadow: 0 0 0 4px rgba(17, 39, 36, 0.2);
 }
 
 :root {
-    --placeholder: #ccc; /* Default placeholder color */
+    --placeholder: #ccc;
 }
 
+
 .title {
-    position: relative;
     display: block;
+    position: relative;
     width: 100%;
     margin: 0;
     padding: 0;
@@ -350,11 +288,9 @@ textarea:focus {
 .title input {
     width: -webkit-fill-available;
     font-family: "Lora", serif;
-    font-weight: bold;
     color: #16423C;
     font-size: larger;
     margin-bottom: 6%;
-    position: relative;
     padding: 1rem 2rem;
     font-size: 1rem;
     border: 1px solid var(--placeholder);
@@ -376,7 +312,7 @@ textarea:focus {
     padding: 0 0.25rem;
     color: #16423C;
     z-index: 2;
-    background-color: #ccc;
+    background-color: #f0eded;
 }
 
 .title span {
@@ -387,7 +323,6 @@ textarea:focus {
     padding: 0 0.25rem;
     color: var(--placeholder);
     font-size: 1rem;
-    background-color: white;
     transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
     pointer-events: none;
 }
@@ -409,23 +344,46 @@ textarea:focus {
     box-shadow: 0 0 8px #16423C;
 }
 
-#welcomeMessage {
-    display: none; 
-    text-align: center; 
-    margin: 20px; 
-    font-size: 24px; 
-    color: gray;
+p {
+    font-family: "Lora", serif;
+    color: #16423C;
+    font-size: larger;
+}
+
+small {
+    display: flex;
+    font-family: "Lora", serif;
+    color: #16423C;
+    padding-left: 20px;
+    margin-bottom: 10px;
+}
+
+hr {
+    background-color: #ccc;
+    height: 3px;
+    border: none;
+}
+
+li {
+    list-style: none;
+}
+
+ul {
+    background-color: white;
+    padding: 10px;
+    margin-top: 0;
+    border-radius: 30px;
 }
 
 .postSubmitBtn {
-    font-family: "Playfair Display", serif;
+    font-family: "Roboto Condensed", serif;
     font-weight: bold;
     background-color: #C4DAD2;
     color: #16423C;
     padding: 10px 20px;
     border-style: groove;
-    border-color: #16423C;
-    border-radius: 30px;
+    border-color: aliceblue;
+    border-radius: 10px;
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s;
@@ -444,7 +402,7 @@ a:hover {
 }
 
 .postSubmitBtn:hover {
-    background-color: #2980b9;
+    background-color: #a8b8c4;
 }
 
 .post-message {
@@ -486,30 +444,29 @@ a:hover {
 .edit-post 
 {
     font-family: "Playfair Display", serif;
-    background-color: #6A9C89;
-    color: white;
-    padding: 8px 15px;
+    color: #16423C;
+    padding: 5px 13px;
+    margin-left: 5px;
     border: none;
     border-radius: 5px;
+    font-size: 15px;
 }
 
 .delete-post {
     font-family: "Playfair Display", serif;
-    background-color: #c0392b;
-    color: white;
-    padding: 8px 15px;
+    color: #16423C;
+    padding: 5px 13px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     height: 40px;
-    font-size: 14px;
-    margin-top: 10px;
-    margin-right: 120px;
+    font-size: 15px;
+    margin-left: 10px;
     transition: background-color 0.3s;
 }
 
 .delete-post:hover {
-    background-color: #c0392b;
+    background-color: red;
 }
 
 /* Media Queries for Responsiveness */
@@ -520,13 +477,18 @@ a:hover {
         height: auto;
     }
 
+    p {
+        padding-left: 20px;
+        margin-top: 0;
+    }
+
     .header {
         font-size: 24px;
         text-align: center;
         margin-left: 0;
     }
     textarea {
-        margin-top: 30px;
+        margin-top: 2px;
     }
 
 
@@ -541,10 +503,9 @@ a:hover {
     .post-container {
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         gap: 1.5rem;
-    }
-
-    .modal-content {
-        max-width: 75%;
+        margin-left: 5%;
+        margin-right: 5%;
+        padding: 20px;
     }
 
     .postSubmitBtn {
