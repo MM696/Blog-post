@@ -1,10 +1,34 @@
 </main>
 
 <body>
-    <footer>
-        <p class="cyrt">Copyright © <span id="year"></span> MacMedia, Inc</p>
-    </footer>
 
-    <script src="/js/script.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+    const navbarToggler = document.getElementById("navbarToggler");
+    const navbarMenu = document.getElementById("container");
+
+    navbarToggler.addEventListener("click", () => {
+        navbarMenu.classList.toggle("active");
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const textarea = document.getElementById("content");
+    const container = textarea.parentElement;
+
+    function updateLabel() {
+        if (textarea.value.trim().length > 0) {
+            container.classList.add("has-text");
+        } else {
+            container.classList.remove("has-text");
+        }
+    }
+
+    // Check on input and page load
+    textarea.addEventListener("input", updateLabel);
+    updateLabel(); // Ensure correct state on load
+});
+
+    </script>
 </body>
 </html>
