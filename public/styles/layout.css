@@ -154,7 +154,6 @@ main {
 
 .post-title {
     color: #16423C;
-    text-decoration: underline;
     font-family: "Roboto Condensed", serif;
     font-weight: bold;
     display: inline-block;
@@ -467,6 +466,7 @@ a:hover {
 
 .delete-post:hover {
     background-color: red;
+    color: white;
 }
 
 /* Media Queries for Responsiveness */

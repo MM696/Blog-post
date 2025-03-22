@@ -1,34 +1,85 @@
-</main>
-
 <body>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-    const navbarToggler = document.getElementById("navbarToggler");
-    const navbarMenu = document.getElementById("container");
+            // Navbar Toggle
+            const navbarToggler = document.getElementById("navbarToggler");
+            const navbarMenu = document.getElementById("container");
 
-    navbarToggler.addEventListener("click", () => {
-        navbarMenu.classList.toggle("active");
-    });
-});
+            if (navbarToggler && navbarMenu) {
+                navbarToggler.addEventListener("click", () => {
+                    navbarMenu.classList.toggle("active");
+                });
+            }
 
-document.addEventListener("DOMContentLoaded", function () {
-    const textarea = document.getElementById("content");
-    const container = textarea.parentElement;
+            // Textarea Label Update
+            const textarea = document.getElementById("content");
+            if (textarea) {
+                const container = textarea.parentElement;
 
-    function updateLabel() {
-        if (textarea.value.trim().length > 0) {
-            container.classList.add("has-text");
-        } else {
-            container.classList.remove("has-text");
-        }
-    }
+                function updateLabel() {
+                    if (textarea.value.trim().length > 0) {
+                        container.classList.add("has-text");
+                    } else {
+                        container.classList.remove("has-text");
+                    }
+                }
 
-    // Check on input and page load
-    textarea.addEventListener("input", updateLabel);
-    updateLabel(); // Ensure correct state on load
-});
+                textarea.addEventListener("input", updateLabel);
+                updateLabel(); // Ensure correct state on load
+            }
 
+            // Form Submission (Create Post)
+            const form = document.getElementById("newPostForm");
+            if (form) {
+                form.addEventListener("submit", async (event) => {
+                    event.preventDefault(); // Prevent default form submission
+
+                    const formData = new FormData(form);
+                    const postData = Object.fromEntries(formData);
+
+                    try {
+                        const response = await fetch("/api/posts", {
+                            method: "POST",
+                            body: JSON.stringify(postData),
+                            headers: { "Content-Type": "application/json" },
+                        });
+
+                        if (response.ok) {
+                            window.location.href = "/"; // Redirect to home page
+                        } else {
+                            console.error("Failed to create post");
+                        }
+                    } catch (error) {
+                        console.error("Error creating post:", error);
+                    }
+                });
+            }
+
+            // Delete Post
+            window.deletePost = async function (postId) {
+                console.log("Attempting to delete post ID:", postId);
+
+                if (!confirm("Are you sure you want to delete this post?")) return;
+
+                try {
+                    const response = await fetch(`/api/posts/delete/${postId}`, { method: "GET" });
+                    const result = await response.json();
+                    console.log("Delete Response:", result);
+
+                    if (response.ok) {
+                        window.location.reload(); // Refresh page after deleting
+                    } else {
+                        console.error("Failed to delete post:", result.message);
+                    }
+                } catch (error) {
+                    console.error("Error deleting post:", error);
+                }
+            };
+        });
+
+        
     </script>
+
 </body>
 </html>
