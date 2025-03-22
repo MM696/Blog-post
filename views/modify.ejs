@@ -13,7 +13,7 @@
                     <label class="postheading" for="title"></label>
                     <input class="title" type="text" name="title" value="<%= post.title %>"/>
                     <textarea name="content" rows="10"><%= post.content %></textarea>
-                    <input type="text" name="author" value="<%= post.author %>"/>
+                    <input type="text" name="author" value="<%= post.author %>" autocomplete="off"/>
                     <button class="postSubmitBtn" type="submit">
                      <%= submit %>
                     </button>
