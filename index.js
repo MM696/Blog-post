@@ -1,204 +1,128 @@
 import express from "express";
 import bodyParser from "body-parser";
-import axios from "axios";
+import dotenv from "dotenv";
+import { createClient } from "@supabase/supabase-js";
+import path from "path";
+import { fileURLToPath } from "url";
+
+// Setup __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Load .env
+dotenv.config();
+
+// Supabase client
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// In-Memory Data Store
-let posts = [
-    {
-        id: 1,
-        title: "My First Trip to Dubai",
-        content: "On a beautiful morning, I received the exciting news about my trip to Dubai. It was my first journey to both Dubai and the Middle East, making it even more thrilling.",
-        author: "Mac Anthony",
-        date: "2025-01-14T10:00:00Z",
-    },
-    {
-        id: 2,
-        title: "My First Trip to The Airport",
-        content: "Going to the airport for the first time on this day was an exhilarating experience. I felt butterflies in my stomach throughout the entire trip.",
-        author: "Mac Anthony",
-        date: "2025-02-14T14:30:00Z",
-    },
-    {
-        id: 3,
-        title: "Baby's First Day Out",
-        content: "On a beautiful day, I decided to take the baby to the zoo for the first time. Excited, the baby watched in awe as we walked along the sidewalk, with vehicles passing by.",
-        author: "Mac Anthony",
-        date: "2025-03-14T10:30:00Z",
-    },
-];
-
-let lastId = 3;
-
 // Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-// Set EJS as View Engine
-app.set("view engine", "ejs");
-
 app.use(express.static("public"));
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
 
 /* ==========================
-   API ROUTES (Backend)
+   VIEW ROUTES
 ========================== */
 
-// GET ALL posts (API)
-app.get("/api/posts", (req, res) => {
-    res.json(posts);
-});
+// Home page: show all posts
+app.get("/", async (req, res) => {
+  const { data: posts, error } = await supabase
+  .from("posts")
+  .select("*")
+  .order("created_at", { ascending: false });
 
-// GET a specific post by ID (API)
-app.get("/api/posts/:id", (req, res) => {
-    const id = parseInt(req.params.id);
-    if (isNaN(id)) {
-        return res.status(400).json({ message: "Invalid post ID" });
-    }
-    const foundPost = posts.find((post) => post.id === id);
-    if (!foundPost) {
-        return res.status(404).json({ message: "Post not found" });
-    }
-    res.json(foundPost);
-});
+console.log("Supabase posts fetch:", { posts, error });
 
-// POST a new post (API)
-app.post("/api/posts", (req, res) => {
-    lastId++;
-    const newPost = {
-        id: lastId,
-        title: req.body.title,
-        content: req.body.content,
-        author: req.body.author,
-        date: new Date().toISOString(),
-    };
-
-    posts.push(newPost);
-    res.status(201).json(newPost);
-});
-
-// PATCH (update) a post (API)
-app.patch("/api/posts/:id", (req, res) => {
-    const id = parseInt(req.params.id);
-    if (isNaN(id)) {
-        return res.status(400).json({ message: "Invalid post ID" });
-    }
-    const searchIndex = posts.findIndex((post) => post.id === id);
-    if (searchIndex === -1) {
-        return res.status(404).json({ message: "Post not found" });
-    }
-
-    posts[searchIndex] = {
-        ...posts[searchIndex],
-        title: req.body.title || posts[searchIndex].title,
-        content: req.body.content || posts[searchIndex].content,
-        author: req.body.author || posts[searchIndex].author,
-        date: new Date().toISOString(),
-    };
-
-    res.json(posts[searchIndex]);
-});
-
-// DELETE a post (API)
-app.delete("/api/posts/:id", (req, res) => {
-    const id = parseInt(req.params.id);
-    if (isNaN(id)) {
-        return res.status(400).json({ message: "Invalid post ID" });
-    }
-    const searchIndex = posts.findIndex((post) => post.id === id);
-    if (searchIndex === -1) {
-        return res.status(404).json({ message: "Post not found" });
-    }
-
-    const [deletedPost] = posts.splice(searchIndex, 1);
-    res.json({ message: "Post deleted successfully", deletedPost });
-});
-
-/* ==========================
-   VIEW ROUTES (Frontend)
-========================== */
-
-// Render Home Page with Posts
-app.get("/", (req, res) => {
+if (error) {
+  console.error("Error fetching posts:", error);
+  return res.status(500).send("Failed to fetch posts");
+}
     res.render("index", { posts });
 });
-
-// Render Create New Post Page
+// New post form
 app.get("/new", (req, res) => {
-    res.render("modify", { heading: "New Post", submit: "Create Post" });
+  res.render("modify", { heading: "New Post", submit: "Create Post", post: null });
 });
 
-// Render Edit Post Page
-app.get("/edit/:id", (req, res) => {
-    const id = parseInt(req.params.id);
-    const foundPost = posts.find((post) => post.id === id);
-    if (!foundPost) {
-        return res.status(404).json({ message: "Post not found" });
-    }
-    res.render("modify", {
-        heading: "Edit Post",
-        submit: "Update Post",
-        post: foundPost,
-    });
+// Edit post form
+app.get("/edit/:id", async (req, res) => {
+  const { data: post, error } = await supabase
+    .from("posts")
+    .select("*")
+    .eq("id", req.params.id)
+    .single();
+
+  if (error || !post) {
+    return res.status(404).send("Post not found");
+  }
+
+  res.render("modify", { heading: "Edit Post", submit: "Update Post", post });
 });
 
-// Handle Create New Post (Form Submission)
+/* ==========================
+   API ROUTES
+========================== */
+
+// Create new post
 app.post("/api/posts", async (req, res) => {
-    try {
-        console.log("Received data from frontend:", req.body);
+  const { title, content, author } = req.body;
+  const { error } = await supabase
+    .from("posts")
+    .insert([{ title, content, author }]);
 
-        const response = await axios.post(`http://localhost:${PORT}/api/posts`, req.body);
+  if (error) {
+    console.error("Create error:", error);
+    return res.status(500).send("Failed to create post");
+  }
 
-        console.log("Backend Response:", response.data);
-
-        res.json({ success: true, post: response.data });
-    } catch (error) {
-        console.error("Error creating post:", error.message);
-        res.status(500).json({ message: "Error creating post", error: error.message });
-    }
+  res.redirect("/");
 });
 
-// Handle Post Update (Form Submission)
+// Update post
 app.post("/api/posts/:id", async (req, res) => {
-    try {
-        const response = await axios.patch(
-            `http://localhost:${PORT}/api/posts/${req.params.id}`,
-            req.body
-        );
-        console.log("Post Updated:", response.data);
-        res.redirect("/");
-    } catch (error) {
-        console.error("Error updating post:", error);
-        res.status(500).json({ message: "Error updating post" });
-    }
+  const { title, content, author } = req.body;
+  const { error } = await supabase
+    .from("posts")
+    .update({ title, content, author })
+    .eq("id", req.params.id);
+
+  if (error) {
+    console.error("Update error:", error);
+    return res.status(500).send("Failed to update post");
+  }
+
+  res.redirect("/");
 });
 
-// Handle Delete Post
-app.get("/api/posts/delete/:id", async (req, res) => {
-    try {
-        const id = parseInt(req.params.id);
+// Delete post
+app.get("/api/posts/delete/:postId", async (req, res) => {
+  const { postId } = req.params;
 
-        if (isNaN(id)) {
-            return res.status(400).json({ message: "Invalid post ID" });
-        }
+  try {
+    const { error } = await supabase
+      .from("posts")
+      .delete()
+      .eq("id", postId);
 
-        const index = posts.findIndex(post => post.id === id);
-        if (index === -1) {
-            return res.status(404).json({ message: "Post not found" });
-        }
-
-        const deletedPost = posts.splice(index, 1);
-
-        console.log("Deleted Post:", deletedPost);
-        res.json({ success: true, message: "Post deleted successfully", deletedPost });
-    } catch (error) {
-        console.error("Error deleting post:", error);
-        res.status(500).json({ message: "Error deleting post" });
+    if (error) {
+      console.error("Error deleting post:", error.message);
+      return res.status(500).send("Failed to delete post"); 
     }
+
+    return res.redirect("/");
+  } catch (err) {
+    console.error("Server error:", err.message);
+    return res.status(500).send("Internal server error"); 
+  }
 });
 
-// Start Server
+// Start server
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`✅ Server running at http://localhost:${PORT}`);
 });

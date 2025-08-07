@@ -44,6 +44,7 @@
                             body: JSON.stringify(postData),
                             headers: { "Content-Type": "application/json" },
                         });
+                        console.log(postData);
 
                         if (response.ok) {
                             window.location.href = "/"; // Redirect to home page
